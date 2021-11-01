@@ -16,7 +16,7 @@ const defaultData = {
 const defaultDataDog = {
   name: 'unknown',
   breed: 'unknown',
-  age: 0
+  age: 0,
 };
 
 // object for us to keep track of the last Cat we made and dynamically update it sometimes
@@ -55,7 +55,6 @@ const readAllCats = (req, res, callback) => {
   Cat.find(callback).lean();
 };
 
-
 // function to find a specific cat on request.
 // Express functions always receive the request and the response.
 const readCat = (req, res) => {
@@ -66,7 +65,7 @@ const readCat = (req, res) => {
   const callback = (err, doc) => {
     if (err) {
       return res.status(500).json({
-        err
+        err,
       }); // if error, return it
     }
 
@@ -91,13 +90,13 @@ const hostPage1 = (req, res) => {
   const callback = (err, docs) => {
     if (err) {
       return res.status(500).json({
-        err
+        err,
       }); // if error, return it
     }
 
     // return success
     return res.render('page1', {
-      cats: docs
+      cats: docs,
     });
   };
 
@@ -130,39 +129,35 @@ const hostPage3 = (req, res) => {
   res.render('page3');
 };
 
-
 const readAllDogs = (req, res, callback) => {
   Dog.find(callback).lean();
 };
 
+// // function to find a specific cat on request.
+// // Express functions always receive the request and the response.
+// const readDog = (req, res) => {
+//   const name1 = req.query.name;
 
-// function to find a specific cat on request.
-// Express functions always receive the request and the response.
-const readDog = (req, res) => {
-  const name1 = req.query.name;
+//   // function to call when we get objects back from the database.
+//   // With Mongoose's find functions, you will get an err and doc(s) back
+//   const callback = (err, doc) => {
+//     if (err) {
+//       return res.status(500).json({
+//         err
+//       }); // if error, return it
+//     }
 
-  // function to call when we get objects back from the database.
-  // With Mongoose's find functions, you will get an err and doc(s) back
-  const callback = (err, doc) => {
-    if (err) {
-      return res.status(500).json({
-        err
-      }); // if error, return it
-    }
+//     // return success
+//     return res.json(doc);
+//   };
 
-    // return success
-    return res.json(doc);
-  };
-
-  // Call the static function attached to CatModels.
-  // This was defined in the Schema in the Model file.
-  // This is a custom static function added to the CatModel
-  // Behind the scenes this runs the findOne method.
-  // You can find the findByName function in the model file.
-  Dog.findByName(name1, callback);
-};
-
-
+//   // Call the static function attached to CatModels.
+//   // This was defined in the Schema in the Model file.
+//   // This is a custom static function added to the CatModel
+//   // Behind the scenes this runs the findOne method.
+//   // You can find the findByName function in the model file.
+//   Dog.findByName(name1, callback);
+// };
 
 // function to handle requests to the page3 page
 // controller functions in Express receive the full HTTP request
@@ -173,13 +168,13 @@ const hostPage4 = (req, res) => {
   const callback = (err, docs) => {
     if (err) {
       return res.status(500).json({
-        err
+        err,
       }); // if error, return it
     }
 
     // return success
     return res.render('page4', {
-      dogs: docs
+      dogs: docs,
     });
   };
 
@@ -194,7 +189,7 @@ const getName = (req, res) => {
   // Since this sends back the data through HTTP
   // you can't send any more data to this user until the next response
   res.json({
-    name: lastAdded.name
+    name: lastAdded.name,
   });
 };
 
@@ -211,7 +206,7 @@ const setName = (req, res) => {
     // if not respond with a 400 error
     // (either through json or a web page depending on the client dev)
     return res.status(400).json({
-      error: 'firstname,lastname and beds are all required'
+      error: 'firstname,lastname and beds are all required',
     });
   }
 
@@ -237,18 +232,17 @@ const setName = (req, res) => {
     // return success
     res.json({
       name: lastAdded.name,
-      beds: lastAdded.bedsOwned
+      beds: lastAdded.bedsOwned,
     });
   });
 
   // if error, return it
   savePromise.catch((err) => res.status(500).json({
-    err
+    err,
   }));
 
   return res;
 };
-
 
 // function to handle requests search for a name and return the object
 // controller functions in Express receive the full HTTP request
@@ -263,7 +257,7 @@ const searchName = (req, res) => {
   // POSTS send data to add while GETS query for a page or data (such as a search)
   if (!req.query.name) {
     return res.status(400).json({
-      error: 'Name is required to perform a search'
+      error: 'Name is required to perform a search',
     });
   }
 
@@ -278,7 +272,7 @@ const searchName = (req, res) => {
     // errs, handle them
     if (err) {
       return res.status(500).json({
-        err
+        err,
       }); // if error, return it
     }
 
@@ -286,14 +280,14 @@ const searchName = (req, res) => {
     // (does not necessarily have to be an error since technically it worked correctly)
     if (!doc) {
       return res.json({
-        error: 'No cats found'
+        error: 'No cats found',
       });
     }
 
     // if a match, send the match back
     return res.json({
       name: doc.name,
-      beds: doc.bedsOwned
+      beds: doc.bedsOwned,
     });
   });
 };
@@ -306,7 +300,7 @@ const dogName = (req, res) => {
     // if not respond with a 400 error
     // (either through json or a web page depending on the client dev)
     return res.status(400).json({
-      error: 'The dog name, breed and age are all required.'
+      error: 'The dog name, breed and age are all required.',
     });
   }
 
@@ -317,7 +311,7 @@ const dogName = (req, res) => {
   const dogData = {
     name,
     breed: req.body.breed,
-    age: req.body.age
+    age: req.body.age,
   };
 
   // create a new object of CatModel with the object to save
@@ -334,13 +328,13 @@ const dogName = (req, res) => {
     res.json({
       name: lastAddedDog.name,
       breed: lastAddedDog.breed,
-      age: lastAddedDog.age
+      age: lastAddedDog.age,
     });
   });
 
   // if error, return it
   saveDogPromise.catch((err) => res.status(500).json({
-    err
+    err,
   }));
 
   return res;
@@ -349,7 +343,7 @@ const dogName = (req, res) => {
 const dogFind = (req, res) => {
   if (!req.query.name) {
     return res.status(400).json({
-      error: 'Name is required to perform a search'
+      error: 'Name is required to perform a search',
     });
   }
 
@@ -361,7 +355,7 @@ const dogFind = (req, res) => {
     // errs, handle them
     if (err) {
       return res.status(500).json({
-        err
+        err,
       }); // if error, return it
     }
 
@@ -369,7 +363,7 @@ const dogFind = (req, res) => {
     // (does not necessarily have to be an error since technically it worked correctly)
     if (!doc) {
       return res.json({
-        error: 'No dogs found with that name'
+        error: 'No dogs found with that name',
       });
     }
 
@@ -382,23 +376,23 @@ const dogFind = (req, res) => {
     savePromise.then(() => res.json({
       name: lastAddedDog.name,
       breed: lastAddedDog.breed,
-      age: lastAddedDog.age
+      age: lastAddedDog.age,
     }));
 
     // if save error, just return an error for now
-    savePromise.catch((err) => res.status(500).json({
-      err
+    savePromise.catch((e) => res.status(500).json({
+      e,
     }));
 
     // if a match, send the match back
     return res.json({
       name: doc.name,
       breed: doc.breed,
-      age: doc.age
+      age: doc.age,
     });
   };
 
-  Dog.findByName(name1, callback);
+  return Dog.findByName(name1, callback);
 };
 
 // function to handle a request to update the last added object
@@ -423,12 +417,12 @@ const updateLast = (req, res) => {
   // send back the name as a success for now
   savePromise.then(() => res.json({
     name: lastAdded.name,
-    beds: lastAdded.bedsOwned
+    beds: lastAdded.bedsOwned,
   }));
 
   // if save error, just return an error for now
   savePromise.catch((err) => res.status(500).json({
-    err
+    err,
   }));
 };
 
